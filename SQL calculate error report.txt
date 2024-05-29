@@ -1,0 +1,146 @@
+USE [CompanyHouseTest]
+GO
+/****** Object:  StoredProcedure [dbo].[ExtractUpdatePeriodScores_Web]    Script Date: 9/19/2023 1:12:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Geo Filipp>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- Test: exec ExtractUpdatePeriodScores_Web @portfolio = 'EQ0000000045469815,EQ0000000052309933', @lookback = 2
+-- =============================================
+ALTER PROCEDURE [dbo].[ExtractUpdatePeriodScores_Web]
+	-- Add the parameters for the stored procedure here
+
+	@portfolio varchar(max),
+	@lookback smallint -- 1 = Day, 2 = Week, 3 = Month
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	-- Uncomment below for debug
+	--declare @portfolio varchar(max) = 'EQ0000000045469815,EQ0000000052309933'
+	--declare @lookback smallint = 2 -- 1 = 1 day back
+
+	declare @lookbackStartDate date
+	select @lookbackStartDate = case @lookback 
+							when 1
+							then DATEADD(Day, -1, getdate())
+							when 2
+							then DATEADD(week, -1, DATETRUNC(WEEK, getdate()))
+							when 3
+							then DATEADD(mm, DATEDIFF(m, 0, getdate()) - 1, 0)
+						  end
+
+DECLARE @TICKERS TABLE (Ticker varchar(40))
+
+INSERT
+INTO    @TICKERS
+select TICKER from company where bberg_ID in (select value from STRING_SPLIT(@portfolio, ','))
+
+--ORIGINAL
+select TickerPeriods.*
+from
+(
+	select
+		CurrentTickerPeriod_IDdesc = row_number() over (partition by Ticker order by dt_entry desc),
+		[FA]
+		  ,[Ticker]
+		  ,[BBERG_ID]
+		  ,[BICS_SECTOR]
+		  ,[BICS_GRP]
+		  ,[DT_ENTRY]
+		  ,[DT_UPDATE]
+		  ,[DATE]
+		  ,[COMPANY_QUARTER]
+		  ,[REAL_QUARTER]
+		  ,[FREQUENCY]
+		  ,[M-SCORE]
+		  ,[M-NA]
+		  ,[T-SCORE]
+		  ,[T-NA]
+		  ,[L-SCORE]
+		  ,[L-NA]
+	from vExtractUpdatePeriodScoresOR_web vOR
+	where --vOR.[M-SCORE] >= 0 
+		TICKER IN (SELECT  Ticker FROM  @TICKERS)
+		and vOR.DT_ENTRY >= DATEADD(DAY, -300, getdate()) --@lookbackStartDate 
+) TickerPeriods
+where
+	TickerPeriods.CurrentTickerPeriod_IDdesc <= 2
+
+UNION
+
+--MOSTRECENT
+select TickerPeriods.*
+from
+(
+	select
+		CurrentTickerPeriod_IDdesc = row_number() over (partition by Ticker order by dt_entry desc),
+		[FA]
+		  ,[Ticker]
+		  ,[BBERG_ID]
+		  ,[BICS_SECTOR]
+		  ,[BICS_GRP]
+		  ,[DT_ENTRY]
+		  ,[DT_UPDATE]
+		  ,[DATE]
+		  ,[COMPANY_QUARTER]
+		  ,[REAL_QUARTER]
+		  ,[FREQUENCY]
+		  ,[M-SCORE]
+		  ,[M-NA]
+		  ,[T-SCORE]
+		  ,[T-NA]
+		  ,[L-SCORE]
+		  ,[L-NA]
+	from vExtractUpdatePeriodScoresMR_web vMR
+	where --vOR.[M-SCORE] >= 0 
+		TICKER IN (SELECT  Ticker FROM  @TICKERS)
+		and vMR.DT_ENTRY >= DATEADD(DAY, -300, getdate()) --@lookbackStartDate 
+) TickerPeriods
+where
+	TickerPeriods.CurrentTickerPeriod_IDdesc <= 2
+
+UNION
+
+--RESTATED
+select TickerPeriods.*
+from
+(
+	select
+		CurrentTickerPeriod_IDdesc = row_number() over (partition by Ticker order by dt_entry desc),
+		[FA]
+		  ,[Ticker]
+		  ,[BBERG_ID]
+		  ,[BICS_SECTOR]
+		  ,[BICS_GRP]
+		  ,[DT_ENTRY]
+		  ,[DT_UPDATE]
+		  ,[DATE]
+		  ,[COMPANY_QUARTER]
+		  ,[REAL_QUARTER]
+		  ,[FREQUENCY]
+		  ,[M-SCORE]
+		  ,[M-NA]
+		  ,[T-SCORE]
+		  ,[T-NA]
+		  ,[L-SCORE]
+		  ,[L-NA]
+	from vExtractUpdatePeriodScoresRS_web vRS
+	where --vOR.[M-SCORE] >= 0 
+		TICKER IN (SELECT  Ticker FROM  @TICKERS)
+		and vRS.DT_ENTRY >= DATEADD(DAY, -300, getdate()) --@lookbackStartDate 
+) TickerPeriods
+where
+	TickerPeriods.CurrentTickerPeriod_IDdesc <= 2
+
+order by
+TICKER, FA, DATE desc
+
+End

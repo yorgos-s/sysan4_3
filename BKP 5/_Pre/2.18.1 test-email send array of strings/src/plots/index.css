@@ -1,0 +1,258 @@
+
+@import url(
+  'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&family=Square+Peg&display=swap');
+  @import url(
+    'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');
+
+
+body{
+    padding: 0;
+    margin: 0;
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'Open Sans', sans-serif;
+    /* background-color: red; */
+}
+
+.mainBody{
+  display: flex;
+/*  background-color: #011;
+*/}
+
+/*  MAIN BODY */
+
+.dataBody{
+/*  position: relative;
+  margin:0 auto;
+  width: 80%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;*/
+}
+
+
+.dataBody h1,h2,h3,h4{
+  color:white;
+  text-align: center;
+  margin-bottom: 1em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
+}
+
+
+
+/* TABLE */
+
+/* any table with data inside */
+.table-data{
+  border-collapse:collapse;
+  width:100%;
+  display: block;
+  overflow-x:auto;
+}
+
+.table-data th,td{
+  font-size: 0.95rem;
+  color:white;
+  padding:.5rem;
+}
+.table-data td{
+  border:1px solid #AAA;
+}
+/* .table-data td:nth-child(4n){
+  border-right:1px solid #FFF;
+} */
+.table-data th{
+  border:1px solid #FFF;
+  border-bottom: 1px solid #AAA;
+}
+
+
+.table-data::-webkit-scrollbar{
+  background : transparent;
+  height:.3rem; 
+  padding:1rem;
+  border: none;
+}
+
+.table-data::-webkit-scrollbar-thumb {
+  background: #DDD; 
+  border: none;
+  border-radius: 10px;
+}
+ 
+.sideHeaders{
+  width:200px;
+}
+
+/*--- GRID BUTTONS */
+.extBar{
+  width:3rem;
+  color:wheat;
+  /* background-color: aqua; */
+}
+
+
+
+
+
+/* //////////////////////
+          SVG 
+////////////////////////*/
+.diagramWrapper{
+  width:100%; 
+  /* background-color: rgb(93, 81, 81); */
+  border-left:1px solid #777;
+  border-bottom:1px solid #BBB;
+  height:200px;
+
+  /* relative position here 
+  is very important! 
+  the viewport is doubled => sidebar
+  (but why?)  */
+  position:relative;
+  /* left:100px; */
+  padding:0;
+  margin:0;
+}
+
+  path{
+    fill: none;
+    stroke-width:6;
+  }
+
+   /* .path0, .path4{
+    fill: none;
+    stroke: rgb(0, 115, 255);
+    stroke-width:6;
+  } 
+
+   .path1, .path5{
+    fill: none;
+    stroke: rgb(0, 255, 21);
+    stroke-width:6;
+  } 
+
+  .path2, .path6{
+    fill: none;
+    stroke: rgb(255, 0, 0);
+    stroke-width:6;
+  } 
+
+  .path3, .path7{
+    fill: none;
+    stroke: rgb(225, 255, 0);
+    stroke-width:6;
+  }  */
+
+
+
+  .svgPath{
+    /* WHYYY is so important??? */
+    position: absolute; 
+    /* background-color: rgb(27, 74, 74); */
+    width:100%;
+    height:100%;
+     margin:0;
+     /* background-color:brown; */
+    /* background-color:#181A1B; */
+  }
+
+
+
+  /* Table Module */ 
+  .table-module{
+    color:white;
+    /* font-size: 5rem; */
+  }
+
+
+
+
+  /* ///////////////////////// 
+            GRID
+  ////////////////////////*/
+  
+  .Grid tbody td{
+    border-spacing: 8px;
+    /* border-right:5px solid green; */
+    /* border-right:5px solid green; */
+    /* padding:0; */
+    /* margin:0; */
+    /* overflow: auto;
+    display: flex;
+    width:2em; */
+    /* position: absolute; */
+    /* padding-right: 1em; */
+    /* background-color: aqua; */
+  }
+
+  .Grid{
+    border-collapse:separate;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* sideBar */
+
+.sideBar{
+  background-color: #011;
+  height:100vh;
+  border-right: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sideBar button{
+  display: flex;
+  width: 15rem;
+  padding:0.5em 0.5em;
+  padding-left:3rem;
+  /* padding-right:3rem; */
+  border:none;
+  margin-bottom: 0.3em;
+  margin-top: 0.3em; 
+  color: white;
+  background-color:transparent; 
+}
+
+.sideBar button:not(.h-btn):hover,
+.sideBar button:not(.h-btn):hover i{
+  background-color: white;
+  color:black;
+  cursor:pointer;
+}
+
+
+.h-btn{
+  font-size: 0.9em;
+}
+
+/*---SIDE ICONS   */
+.sideBar i{
+  color: #DDD;
+  margin-right: 1rem;
+}
+

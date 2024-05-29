@@ -1,0 +1,51 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.1);
+}
+
+th, td {
+    text-align: left;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 1.5em;
+}
+
+th {
+    background-color: #1e1e1e;
+    color: #a0a0a0;
+}
+
+tr:hover {
+    background-color: #1e1e1e;
+    cursor: pointer;
+}
+
+tr[style*="blue"] {
+    background-color: #424242 !important;
+    color: #ffffff;
+}
+
+tr:nth-child(even) {
+    background-color: #181818;
+}
+
+div {
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+br {
+    margin: 16px 0;
+}
+
+/* Set specific widths for the ID and Name columns */
+.id-column, .name-column {
+    width: 30%; /* Adjust as needed */
+}
+
+/* Set a specific width for the Scheduler column */
+.scheduler-column {
+    width: 50%; /* Adjust as needed */
+}

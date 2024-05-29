@@ -1,0 +1,318 @@
+USE [CompanyHouseTest]
+GO
+/****** Object:  StoredProcedure [dbo].[ExtractScoresFormulasInOneRow_Web]    Script Date: 9/13/2023 12:16:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- Test: exec ExtractScoresFormulasInOneRow_Web
+-- =============================================
+ALTER PROCEDURE [dbo].[ExtractScoresFormulasInOneRow_Web]
+	-- Add the parameters for the stored procedure here
+
+	--@Ticker varchar(150) 
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+DECLARE @StartDate datetime = '1989-12-31'
+
+DECLARE @TICKERS TABLE (Ticker varchar(40))
+
+DECLARE	@Directory Varchar(600), 
+        @file varCHAR(250),
+		@sql      varchar(8000),
+        @cmd      varchar(1000)
+
+	set @Directory = 'C:\Windows\Temp\PORTFOLIOS'
+--set "myDirectory=z:\RunSystem\BackOffice\CompanyHouseQueries\"
+    set @file = 'portfolio1.csv'
+
+	Drop Table If Exists #ALLFILENAMES
+	CREATE TABLE #ALLFILENAMES(WHICHPATH VARCHAR(255),WHICHFILE varchar(255))
+
+	SET @cmd = 'dir ' + @Directory + '*.csv /b'
+    INSERT INTO  #ALLFILENAMES(WHICHFILE)
+    EXEC Master..xp_cmdShell @cmd
+    ----UPDATE #ALLFILENAMES SET WHICHPATH = @Directory where WHICHPATH is null
+	--set @file = (select top 1 WHICHFILE FROM #ALLFILENAMES where WHICHFILE like '%.csv%')
+	select * from #ALLFILENAMES
+drop table #ALLFILENAMES
+select @file
+Select distinct line from Dbo.uftReadfileAsTable(@Directory,@file)
+
+INSERT
+INTO    @TICKERS
+select TICKER from company where bberg_ID in ( Select distinct line from Dbo.uftReadfileAsTable(@Directory,@file))
+
+select * from @TICKERS
+
+--ORIGINAL
+select
+	[TABLES]
+      ,[Ticker]
+      ,[BBERG_ID]
+      ,[BICS_SECTOR]
+      ,[BICS_GRP]
+      ,[DT_ENTRY]
+      ,[DT_UPDATE]
+      ,[DATE]
+      ,[COMPANY_QUARTER]
+      ,[REAL_QUARTER]
+      ,[M-SCORE]
+      ,[M-NA]
+      ,[T-SCORE]
+      ,[T-NA]
+      ,[L-SCORE]
+      ,[L-NA]
+      ,[MOMENTUM_1]
+      ,[MOMENTUM_2]
+      ,[MOMENTUM_3]
+      ,[MOMENTUM_4]
+      ,[MOMENTUM_5]
+      ,[MOMENTUM_6]
+      ,[MOMENTUM_7]
+      ,[MOMENTUM_8]
+      ,[MOMENTUM_9]
+      ,[MOMENTUM_10]
+      ,[MOMENTUM_11]
+      ,[MOMENTUM_12]
+      ,[MOMENTUM_13]
+      ,[MOMENTUM_14]
+      ,[MOMENTUM_15]
+      ,[MOMENTUM_16]
+      ,[MOMENTUM_17]
+      ,[MOMENTUM_18]
+      ,[MOMENTUM_19]
+      ,[MOMENTUM_20]
+      ,[TRUST_1]
+      ,[TRUST_2]
+      ,[TRUST_3]
+      ,[TRUST_4]
+      ,[TRUST_5]
+      ,[TRUST_6]
+      ,[TRUST_7]
+      ,[TRUST_8]
+      ,[TRUST_9]
+      ,[TRUST_10]
+      ,[TRUST_11]
+      ,[TRUST_12]
+      ,[TRUST_13]
+      ,[TRUST_14]
+      ,[TRUST_15]
+      ,[TRUST_16]
+      ,[TRUST_17]
+      ,[TRUST_18]
+      ,[TRUST_19]
+      ,[TRUST_20]
+      ,[LIQUIDITY_1]
+      ,[LIQUIDITY_2]
+      ,[LIQUIDITY_3]
+      ,[LIQUIDITY_4]
+      ,[LIQUIDITY_5]
+      ,[LIQUIDITY_6]
+      ,[LIQUIDITY_7]
+      ,[LIQUIDITY_8]
+      ,[LIQUIDITY_9]
+      ,[LIQUIDITY_10]
+      ,[LIQUIDITY_11]
+      ,[LIQUIDITY_12]
+      ,[LIQUIDITY_13]
+      ,[LIQUIDITY_14]
+      ,[LIQUIDITY_15]
+      ,[LIQUIDITY_16]
+      ,[LIQUIDITY_17]
+      ,[LIQUIDITY_18]
+      ,[LIQUIDITY_19]
+      ,[LIQUIDITY_20]
+      --,[SCORE]
+from vExtractScoresAllFormOR_web as vOR
+where --vOR.[M-SCORE] >= 0 
+	TICKER IN (SELECT  Ticker FROM  @TICKERS)
+	--and IS_ANNUAL_DATA = 'FALSE' 
+	and vOR.DATE > @StartDate
+
+UNION
+
+--MOSTRECENT
+select 
+	[TABLES]
+      ,[Ticker]
+      ,[BBERG_ID]
+      ,[BICS_SECTOR]
+      ,[BICS_GRP]
+      ,[DT_ENTRY]
+      ,[DT_UPDATE]
+      ,[DATE]
+      ,[COMPANY_QUARTER]
+      ,[REAL_QUARTER]
+      ,[M-SCORE]
+      ,[M-NA]
+      ,[T-SCORE]
+      ,[T-NA]
+      ,[L-SCORE]
+      ,[L-NA]
+      ,[MOMENTUM_1]
+      ,[MOMENTUM_2]
+      ,[MOMENTUM_3]
+      ,[MOMENTUM_4]
+      ,[MOMENTUM_5]
+      ,[MOMENTUM_6]
+      ,[MOMENTUM_7]
+      ,[MOMENTUM_8]
+      ,[MOMENTUM_9]
+      ,[MOMENTUM_10]
+      ,[MOMENTUM_11]
+      ,[MOMENTUM_12]
+      ,[MOMENTUM_13]
+      ,[MOMENTUM_14]
+      ,[MOMENTUM_15]
+      ,[MOMENTUM_16]
+      ,[MOMENTUM_17]
+      ,[MOMENTUM_18]
+      ,[MOMENTUM_19]
+      ,[MOMENTUM_20]
+      ,[TRUST_1]
+      ,[TRUST_2]
+      ,[TRUST_3]
+      ,[TRUST_4]
+      ,[TRUST_5]
+      ,[TRUST_6]
+      ,[TRUST_7]
+      ,[TRUST_8]
+      ,[TRUST_9]
+      ,[TRUST_10]
+      ,[TRUST_11]
+      ,[TRUST_12]
+      ,[TRUST_13]
+      ,[TRUST_14]
+      ,[TRUST_15]
+      ,[TRUST_16]
+      ,[TRUST_17]
+      ,[TRUST_18]
+      ,[TRUST_19]
+      ,[TRUST_20]
+      ,[LIQUIDITY_1]
+      ,[LIQUIDITY_2]
+      ,[LIQUIDITY_3]
+      ,[LIQUIDITY_4]
+      ,[LIQUIDITY_5]
+      ,[LIQUIDITY_6]
+      ,[LIQUIDITY_7]
+      ,[LIQUIDITY_8]
+      ,[LIQUIDITY_9]
+      ,[LIQUIDITY_10]
+      ,[LIQUIDITY_11]
+      ,[LIQUIDITY_12]
+      ,[LIQUIDITY_13]
+      ,[LIQUIDITY_14]
+      ,[LIQUIDITY_15]
+      ,[LIQUIDITY_16]
+      ,[LIQUIDITY_17]
+      ,[LIQUIDITY_18]
+      ,[LIQUIDITY_19]
+      ,[LIQUIDITY_20]
+      --,[SCORE]
+from vExtractScoresAllFormMR_web vMR
+where --vMR.[M-SCORE] >= 0 
+	TICKER IN (SELECT  Ticker FROM  @TICKERS)
+	--and IS_ANNUAL_DATA = 'FALSE' 
+	and vMR.DATE > @StartDate
+
+UNION
+
+--RESTATED
+select 
+	[TABLES]
+      ,[Ticker]
+      ,[BBERG_ID]
+      ,[BICS_SECTOR]
+      ,[BICS_GRP]
+      ,[DT_ENTRY]
+      ,[DT_UPDATE]
+      ,[DATE]
+      ,[COMPANY_QUARTER]
+      ,[REAL_QUARTER]
+      ,[M-SCORE]
+      ,[M-NA]
+      ,[T-SCORE]
+      ,[T-NA]
+      ,[L-SCORE]
+      ,[L-NA]
+      ,[MOMENTUM_1]
+      ,[MOMENTUM_2]
+      ,[MOMENTUM_3]
+      ,[MOMENTUM_4]
+      ,[MOMENTUM_5]
+      ,[MOMENTUM_6]
+      ,[MOMENTUM_7]
+      ,[MOMENTUM_8]
+      ,[MOMENTUM_9]
+      ,[MOMENTUM_10]
+      ,[MOMENTUM_11]
+      ,[MOMENTUM_12]
+      ,[MOMENTUM_13]
+      ,[MOMENTUM_14]
+      ,[MOMENTUM_15]
+      ,[MOMENTUM_16]
+      ,[MOMENTUM_17]
+      ,[MOMENTUM_18]
+      ,[MOMENTUM_19]
+      ,[MOMENTUM_20]
+      ,[TRUST_1]
+      ,[TRUST_2]
+      ,[TRUST_3]
+      ,[TRUST_4]
+      ,[TRUST_5]
+      ,[TRUST_6]
+      ,[TRUST_7]
+      ,[TRUST_8]
+      ,[TRUST_9]
+      ,[TRUST_10]
+      ,[TRUST_11]
+      ,[TRUST_12]
+      ,[TRUST_13]
+      ,[TRUST_14]
+      ,[TRUST_15]
+      ,[TRUST_16]
+      ,[TRUST_17]
+      ,[TRUST_18]
+      ,[TRUST_19]
+      ,[TRUST_20]
+      ,[LIQUIDITY_1]
+      ,[LIQUIDITY_2]
+      ,[LIQUIDITY_3]
+      ,[LIQUIDITY_4]
+      ,[LIQUIDITY_5]
+      ,[LIQUIDITY_6]
+      ,[LIQUIDITY_7]
+      ,[LIQUIDITY_8]
+      ,[LIQUIDITY_9]
+      ,[LIQUIDITY_10]
+      ,[LIQUIDITY_11]
+      ,[LIQUIDITY_12]
+      ,[LIQUIDITY_13]
+      ,[LIQUIDITY_14]
+      ,[LIQUIDITY_15]
+      ,[LIQUIDITY_16]
+      ,[LIQUIDITY_17]
+      ,[LIQUIDITY_18]
+      ,[LIQUIDITY_19]
+      ,[LIQUIDITY_20]
+      --,[SCORE]
+from vExtractScoresAllFormMR_web vRS
+where --vRS.[M-SCORE] >= 0 
+	TICKER IN (SELECT  Ticker FROM  @TICKERS)
+	--and IS_ANNUAL_DATA = 'FALSE' 
+	and vRS.DATE > @StartDate
+
+order by
+TICKER, DATE
+
+End

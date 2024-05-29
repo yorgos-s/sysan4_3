@@ -1,0 +1,169 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #111;
+    color: #e0e0e0;
+    font-size:0.7em;
+}
+
+table {
+    border-collapse: collapse;
+}
+table td{
+    border:1px solid red;
+    
+}
+
+/*fix bug*/
+/*.table-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-container > div {
+    margin-bottom: 20px;*/ /* Adjust the margin as needed */
+/*}*/
+
+html, body, #root, .app-container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.app-container {
+    display: flex;
+}
+
+.menu {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers menu items vertically */
+    color: white;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    background-color:#111;
+    border-right:1px solid #333;
+
+}
+
+/* Assuming the menu items are rendered as li elements inside ul */
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    padding: 1em 0; /* Provides spacing of 1em between items */
+    text-align: center;
+    color: white; /* Text color */
+    text-decoration: none;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    /* If you want to keep the background color, uncomment the following line */
+    /* background-color: #eeeeee; */
+}
+
+
+
+
+.menu-links {
+    /* clear styles as necessary */
+    text-decoration:none;
+}
+
+.menu li a {
+    color: white; /* Makes hyperlink text white */
+    text-decoration: none; /* Removes underline */
+}
+
+
+.submitButton {
+    background-color: #2c4863; /* Primary color */
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    outline: none;
+}
+
+.submitButton:hover {
+    background-color: #155a8a; /* Darken on hover */
+}
+
+.submitButton:disabled {
+    background-color: #424242; /* Disabled state color */
+    cursor: not-allowed;
+}
+
+
+
+
+/* Material Design Input Fields */
+input[type="number"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.38); /* Slightly transparent white */
+    color: #e0e0e0; /* Existing text color */
+    font-size: 16px;
+    width: 1.8em;
+    outline: none;
+    padding: 5px 0;
+    transition: border-bottom-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+    border-bottom-color: #ffffff; /* Fully opaque white on focus */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+
+
+select{
+    padding:0.5em !important;
+    margin:1em !important;
+/*        background-color:black;
+*/        border:0;
+}
+
+
+
+
+/* GLOBAL TABLE STYLES*/
+/* Base styles for the table */
+.table-data {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* Table headers */
+.table-data td, .table-data th {
+    border: 1px solid white;
+    padding: 1em;
+}
+
+.table-data td:hover, .table-data th:hover {
+    cursor: pointer;
+}
+
