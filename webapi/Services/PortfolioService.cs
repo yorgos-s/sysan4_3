@@ -17,7 +17,7 @@
         private List<string> LoadPortfolioNames()
         {
             // Your logic to load portfolio names
-            const string CsvFolderPath = @"H:\Programming\_PROJECTS\Blooberg\__PORTFOLIOS_SQL_READ";
+            const string CsvFolderPath = @"C:\_portfolios";
             var csvFiles = Directory.GetFiles(CsvFolderPath, "*.csv");
             return csvFiles.Select(Path.GetFileName).ToList();
         }
