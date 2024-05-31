@@ -1,0 +1,7 @@
+[
+    {"id": 1, "name": "none", "every":"", "email":"", "day":"", "hour":""},
+    {"id": 2, "name": "Scheduler 1", "every":"week", "email":"sarah.smith@techcorp.net - james.wilson@globalnet.co - michael.brown@megacom.biz", "day":"Wedneday", "hour":"12:00"},
+    {"id": 3, "name": "Scheduler daily", "every":"day", "email":"william.anderson@softdev.tech","day":"", "hour":"17:00"},
+    {"id": 4, "name": "Scheduler montly", "every":"month", "email":"linda.johnson@alphatech.io - robert.davis@betanet-solutions.com","day":"15", "hour":"9:00"},
+    {"id": 5, "name": "S4", "every":"day", "email":"mary.taylor@ecomworld.org","day":"Monday", "hour":"15:00"}
+]
